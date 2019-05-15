@@ -42,6 +42,9 @@ setup(
     name='s1_preprocessor',
     packages=find_packages(include=['s1_preprocessor']),
     setup_requires=setup_requirements,
+    entry_points='''[console_scripts]
+                    geocode=s1_preprocessor.geocode:main
+                    compile_archive=s1_preprocessor.compile_archive:main''',
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/mjgleason/s1_preprocessor',

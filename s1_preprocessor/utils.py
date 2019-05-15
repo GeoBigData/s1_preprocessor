@@ -3,7 +3,7 @@ import sh
 import glob
 import shutil
 import sys
-
+import sys
 
 def image_info(image_id):
     """Parses image ID into various parts needed for formatting filenames"""
@@ -56,7 +56,7 @@ def download_s1_image(image_id, out_folder, dry_run=False):
 
     # don't run the command if in debug mode -- it fails in pycharm for some reason
     if sys.gettrace() is None:
-        sh.aws.s3.cp(*args)
+        sh.aws.s3.cp(*args, _out=sys.stdout)
     else:
         print("In debug mode. Skipping sh command.")
 
@@ -99,3 +99,17 @@ def rename_files(image_id, dir, ext, prefix=None):
         shutil.move(os.path.join(dir, f), os.path.join(dir, new_name))
 
 
+def convert_type(var, f, expected_type):
+
+    # try to convert the inputs to correct types
+    if var is None:
+        return None
+
+    try:
+        var = f(var)
+    except ValueError as e:
+        err = "Inputs {var} cannot be converted to type {expected_type}".format(var=var,
+                                                                                expected_type=expected_type)
+        raise ValueError(err)
+
+    return var

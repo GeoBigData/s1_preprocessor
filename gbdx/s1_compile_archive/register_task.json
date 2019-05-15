@@ -1,0 +1,51 @@
+{
+    "inputPortDescriptors": [
+        {
+            "required": true,
+            "type": "string",
+            "description": "ID of the input image or scene to process. e.g., S1A_IW_GRDH_1SDV_20190313T161522_20190313T161557_026321_02F156_A8A9",
+            "name": "image_id"
+        }, 
+        {
+            "required": false,
+            "type": "string",
+            "description": "(Optional) AWS Access Key ID to use when downloading the data from AWS Open Data Registry. Note: The account associated with these credentials pays download costs.",
+            "name": "aws_access_key_id"
+        },
+        {
+            "required": false,
+            "type": "string",
+            "description": "(Optional) AWS Secret Access Key to use when downloading the data from AWS Open Data Registry. Note: The account associated with these credentials pays download costs.",
+            "name": "aws_secret_access_key"
+        },
+        {
+            "required": false,
+            "type": "string",
+            "description": "(Optional) AWS Session Token to use when downloading the data from AWS Open Data Registry. Note: The account associated with these credentials pays download costs.",
+            "name": "aws_session_token"
+        }
+    ],
+    "outputPortDescriptors": [
+        {
+            "required": true,
+            "type": "directory",
+            "description": "Directory holding output Sentinel-1 scene in SAFE format.",
+            "name": "data"
+        }
+    ],
+    "containerDescriptors": [{
+        "type": "DOCKER",
+        "command": "python /s1_preprocessor/s1_preprocessor/task_runners/run_compile_archive.py",
+        "properties": {
+            "image": "mgleason/s1_preprocessor:latest"
+        }
+    }],
+    "name": "s1_compile_archive",
+    "taskOwnerEmail": "michael.gleason@digitalglobe.com",
+    "version": "0.0.1",
+    "description": "WARNING: THIS TASK IS EXPERIMENTAL AND HAS NOT BEEN ROBUSTLY TESTED. This task will download a Sentinel-1 image from the Registry of Open Data on AWS (https://registry.opendata.aws/sentinel-1/) and compile it into the SAFE format specification (https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/data-formats/safe-specification). This format is required for the data to be compatible with the ESA SNAP Toolbox and the PyroSAR Python bindings, as used in the s1_geocode GBDX Task.",
+    "properties": {
+        "isPublic": true,
+        "timeout": 36000
+    }
+}
