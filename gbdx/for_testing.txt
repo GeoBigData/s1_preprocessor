@@ -7,10 +7,11 @@ docker run -it mgleason/s1_preprocessor
 # to spin up docker image with simulated input/output mounts
 LOCAL_PATH=$(pwd)
 docker run --rm -v $LOCAL_PATH/gbdx/s1_compile_archive/sample_input:/mnt/work/input -v $LOCAL_PATH/gbdx/s1_compile_archive/sample_output:/mnt/work/output -it mgleason/s1_preprocessor
-docker run --rm -v $LOCAL_PATH/gbdx/s1_geocode/sample_input:/mnt/work/input -v $LOCAL_PATH/gbdx/s1_geocode/sample_output:/mnt/work/output -it mgleason/s1_preprocessor
+docker run --memory=16G --rm -v $LOCAL_PATH/gbdx/s1_compile_archive/sample_output:/mnt/work/input -v $LOCAL_PATH/gbdx/s1_geocode/sample_output:/mnt/work/output -it mgleason/s1_preprocessor
 
 # within the docker, run the script
 python /s1_preprocessor/s1_preprocessor/task_runners/run_compile_archive.py
+python /s1_preprocessor/s1_preprocessor/task_runners/run_geocode.py
 
 # push to docker hub
 docker push mgleason/s1_preprocessor

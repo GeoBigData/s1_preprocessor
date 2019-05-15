@@ -1,0 +1,171 @@
+{
+    "inputPortDescriptors": [
+        {
+            "required": true,
+            "type": "directory",
+            "description": "Path to S3 directory containing a single input Sentinel-1 SAFE archive.",
+            "name": "data"
+        },
+        {
+            "name": "t_srs",
+            "required": false,
+            "type": "string",
+            "description": "A target geographic reference system in WKT, EPSG, PROJ4 or OPENGIS format. If EPSG, specify like: '4326'. Use 'utm' to automatically select UTM zone. Default: 'utm'"
+        },
+        {
+            "name": "tr",
+            "required": false,
+            "type": "string",
+            "description": "The target resolution in meters. Default: 10"
+        },
+        {
+            "name": "polarization",
+            "required": false,
+            "type": "string",
+            "description": "The polarizations to be processed. Must be one of: {'VV', 'HH', 'VH', 'HV', 'all'}. Default: 'all'"
+        },
+        {
+            "name": "bbox",
+            "required": false,
+            "type": "string",
+            "description": "Bbox for subsetting the scene, provided as a comma-delimited string in EPGS:4326 coordinates. e.g.: xmin,ymin,xmax,ymax. Default: None."
+        },
+        {
+            "name": "shapefile",
+            "required": false,
+            "type": "string",
+            "description": "Path to a polygon shapefile for subsetting the scene to a test site. This variable is overridden if a bbox is provided. Default: None."
+        },
+        {
+            "name": "scaling",
+            "required": false,
+            "type": "string",
+            "description": "Should the output be in 'linear' or decibel ('db') scaling? Default: 'db'."
+        },
+        {
+            "name": "geocoding_type",
+            "required": false,
+            "type": "string"-Doppler',
+            "description": "The type of geocoding applied; can be either 'Range-Doppler' or 'SAR simulation cross correlation'. Default: 'Range-Doppler'."
+        },
+        {
+            "name": "remove_s1_border_noise",
+            "required": false,
+            "type": "string",
+            "description": "Enables removal of S1 GRD border noise. Default: True."
+        },
+        {
+            "name": "remove_s1_thermal_noise",
+            "required": false,
+            "type": "string",
+            "description": "Enables removal of S1 thermal noise. Enabling may cause failures due to S1 format changes. Default: False."
+        },
+        {
+            "name": "offset_left",
+            "required": false,
+            "type": "string",
+            "description": "Offset from left edge in pixels. This variable is overridden if a shapefile or bbox is defined. Default: None"
+        },
+        {
+            "name": "offset_right",
+            "required": false,
+            "type": "string",
+            "description": "Offset from right edge in pixels. This variable is overridden if a shapefile or bbox is defined. Default: None"
+        },
+        {
+            "name": "offset_top",
+            "required": false,
+            "type": "string",
+            "description": "Offset from top edge in pixels. This variable is overridden if a shapefile or bbox is defined. Default: None"
+        },
+        {
+            "name": "offset_bottom",
+            "required": false,
+            "type": "string",
+            "description": "Offset from bottom edge in pixels. This variable is overridden if a shapefile or bbox is defined. Default: None"
+        },
+        {
+            "name": "external_dem_file",
+            "required": false,
+            "type": "string",
+            "description": "The absolute path to an external DEM file. Default: None"
+        },
+        {
+            "name": "external_dem_no_data_value",
+            "required": false,
+            "type": "string",
+            "description": "The no data value of the external DEM. If not specified, the function will try to read it from the specified external DEM. Default: None"
+        },
+        {
+            "name": "external_dem_apply_egm",
+            "required": false,
+            "type": "string",
+            "description": "Apply Earth Gravitational Model to external DEM? Default: True."
+        },
+        {
+            "name": "terrain_flattening",
+            "required": false,
+            "type": "string",
+            "description": "Apply topographic normalization on the data? Default: True."
+        },
+        {
+            "name": "basename_extension",
+            "required": false,
+            "type": "string",
+            "description": "Name of additional parameters to append to the basename, e.g. 'orbitNumber_rel'"
+        },
+        {
+            "name": "test",
+            "required": false,
+            "type": "string",
+            "description": "If set to True the workflow xml file is only written and not executed. Default: False."
+        },
+        {
+            "name": "export_extra",
+            "required": false,
+            "type": "string",
+            "description": "A list of image file IDs to be exported to outdir. The following IDs are currently supported: incidenceAngleFromEllipsoid, localIncidenceAngle, projectedLocalIncidenceAngle, DEM. Should be specified as comma delimited string. Default: None"
+        },
+        {
+            "name": "group_size",
+            "required": false,
+            "type": "string",
+            "description": "The number of workers executed together in one gpt call. Default: 2"
+        },
+        {
+            "name": "cleanup",
+            "required": false,
+            "type": "string",
+            "description": "Should all files written to the temporary directory during function execution be deleted after processing? Default: True"
+        },
+        {
+            "name": "return_wf",
+            "required": false,
+            "type": "string",
+            "description": "Should all files written to the temporary directory during function Return the full name of the written workflow XML file?? Default: False")
+        }
+    ],
+    "outputPortDescriptors": [
+        {
+            "required": true,
+            "type": "directory",
+            "description": "Directory holding output geotiff.",
+            "name": "data"
+        }
+    ],
+    "containerDescriptors": [{
+        "type": "DOCKER",
+        "command": "python /s1_preprocessor/s1_preprocessor/task_runners/run_geocode.py",
+        "properties": {
+            "image": "mgleason/s1_preprocessor:latest"
+        }
+    }],
+    "name": "s1_geocode",
+    "taskOwnerEmail": "michael.gleason@digitalglobe.com",
+    "version": "0.0.1",
+    "description": "WARNING: THIS TASK IS EXPERIMENTAL AND HAS NOT BEEN ROBUSTLY TESTED. This tool simply wraps the excellent and highly useful SNAP geocode function provided by the PyroSAR Python package (https://github.com/johntruckenbrodt/pyroSAR) into a CLI. Most of the standard inputs to the geocode function are exposed via the CLI, with the exception that most inputs requiring lists have been simplified to single text inputs, and the `gpt_exceptions` option has been removed entirely. A few inputs have also been added for convenience, including a `bbox` argument (for image subsetting) and a `utm` option for the `t_srs` input, which will automatically select a UTM zone into which the image will be project (based on the centroid of the S-1 scene). The source code for the geocode function can be found here: https://github.com/johntruckenbrodt/pyroSAR/blob/master/pyroSAR/snap/util.py#L14.",
+    "properties": {
+        "isPublic": true,
+        "timeout": 36000
+    }
+}

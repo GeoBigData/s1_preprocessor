@@ -9,6 +9,8 @@ RUN conda env create -f /helper/environment.yml
 RUN cd /helper && wget http://step.esa.int/downloads/6.0/installers/esa-snap_sentinel_unix_6_0.sh
 # install SNAP execexutables
 RUN yes "" | bash /helper/esa-snap_sentinel_unix_6_0.sh
+# set memory max to 16 GB
+RUN sed -i -e 's/-Xmx1G/-Xmx16G/g' /opt/snap/bin/gpt.vmoptions
 
 # install zip CLI
 RUN apt-get install zip -y
