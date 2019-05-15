@@ -1,0 +1,23 @@
+# environment.yml
+name: s1_preprocessor
+channels: !!python/tuple
+- !!python/unicode
+  'conda-forge'
+- !!python/unicode
+  'digitalglobe'
+- !!python/unicode
+  'defaults'
+dependencies:
+- conda-forge::python=3.6.6
+- conda-forge::pip<10
+- conda-forge::rasterio>=1.0.18,<2.0
+- conda-forge::fiona>=1.8.6,<2.0
+- conda-forge::shapely>=1.6.4,<2.0
+- conda-forge::pyproj>=1.9.6,<2.0
+- digitalglobe::gbdxtools>=0.16.5,<0.17
+- pip:
+  - tinytools<=1.1.0
+  - awscli>=1.16.100,<2.0
+  - utm==0.4.2
+  - sh
+  - "git+https://github.com/johntruckenbrodt/pyroSAR.git"
