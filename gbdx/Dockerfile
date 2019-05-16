@@ -19,7 +19,8 @@ RUN apt-get install zip -y
 ADD . /s1_preprocessor
 SHELL ["/bin/bash", "-c"]
 RUN echo "source activate s1_preprocessor" > ~/.bashrc
-ENV PATH /opt/conda/envs/env/bin:$PATH
+ENV PATH /opt/conda/envs/s1_preprocessor/bin:$PATH
+ENV PATH /opt/conda/envs/s1_preprocessor/bin:$PATH
 RUN cd /s1_preprocessor && python setup.py install
 
 ENV PYTHONPATH /s1_preprocessor

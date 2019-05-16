@@ -45,7 +45,7 @@
         {
             "name": "geocoding_type",
             "required": false,
-            "type": "string"-Doppler',
+            "type": "string",
             "description": "The type of geocoding applied; can be either 'Range-Doppler' or 'SAR simulation cross correlation'. Default: 'Range-Doppler'."
         },
         {
@@ -142,7 +142,7 @@
             "name": "return_wf",
             "required": false,
             "type": "string",
-            "description": "Should all files written to the temporary directory during function Return the full name of the written workflow XML file?? Default: False")
+            "description": "Should all files written to the temporary directory during function Return the full name of the written workflow XML file?? Default: False"
         }
     ],
     "outputPortDescriptors": [

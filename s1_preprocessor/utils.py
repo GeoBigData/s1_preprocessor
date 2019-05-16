@@ -3,7 +3,6 @@ import sh
 import glob
 import shutil
 import sys
-import sys
 
 def image_info(image_id):
     """Parses image ID into various parts needed for formatting filenames"""
@@ -39,7 +38,8 @@ def format_s3_prefix(image_id):
 
     return path
 
-def download_s1_image(image_id, out_folder, dry_run=False):
+def download_s1_image(image_id, out_folder, dry_run=False, aws_access_key_id=None, aws_secret_access_key=None,
+                      aws_session_token=None):
     """Downloads the image directory from AWS """
 
     src_bucket = 'sentinel-s1-l1c'
@@ -54,9 +54,18 @@ def download_s1_image(image_id, out_folder, dry_run=False):
     if dry_run is True:
         args.append('--dryrun')
 
+    # set environment vars
+    new_env = os.environ.copy()
+    if aws_access_key_id is not None:
+        new_env["AWS_ACCESS_KEY_ID"] = aws_access_key_id
+    if aws_secret_access_key is not None:
+        new_env["AWS_SECRET_ACCESS_KEY"] = aws_secret_access_key
+    if aws_session_token is not None:
+        new_env["AWS_SESSION_TOKEN"] = aws_session_token
+
     # don't run the command if in debug mode -- it fails in pycharm for some reason
     if sys.gettrace() is None:
-        sh.aws.s3.cp(*args, _out=sys.stdout)
+        sh.aws.s3.cp(*args, _out=sys.stdout, _env=new_env)
     else:
         print("In debug mode. Skipping sh command.")
 

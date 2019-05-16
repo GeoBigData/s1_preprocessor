@@ -16,16 +16,14 @@ from s1_preprocessor import utils
 def main(image_id, out_path, aws_access_key_id=None, aws_secret_access_key=None, aws_session_token=None):
     """Download data from AWS open data S3 and convert into SAFE format compatible with SNAP and PyroSAR"""
 
-    # check for input aws creds, if provided, add to environ var
-    if aws_access_key_id is not None:
-        os.environ['AWS_ACCESS_KEY_ID'] = aws_access_key_id
-    if aws_secret_access_key is not None:
-        os.environ['AWS_SECRET_ACCESS_KEY'] = aws_secret_access_key
-    if aws_session_token is not None:
-        os.environ['AWS_SESSION_TOKEN'] = aws_session_token
 
     print("Downloading files from S3")
-    archive = utils.download_s1_image(image_id, out_path, dry_run=False)
+    archive = utils.download_s1_image(image_id,
+                                      out_path,
+                                      dry_run=False,
+                                      aws_access_key_id=aws_access_key_id,
+                                      aws_secret_access_key=aws_secret_access_key,
+                                      aws_session_token=aws_session_token)
 
     # rename the files
     print("Renaming files")
