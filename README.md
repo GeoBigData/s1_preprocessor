@@ -2,12 +2,17 @@
 Python package for preprocessing Sentinel-1 imagery from AWS Open Data Registry into orthorectified, calibrated geotiffs.
 Includes collateral for GBDX task deployment.
 
-This package includes two CLI tools:
+This package includes three CLI tools:
 *1. compile_archive.py:*
 
 This tool will download a Sentinel-1 image from the Registry of Open Data on AWS (https://registry.opendata.aws/sentinel-1/) and compile it into the SAFE format specification (https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/data-formats/safe-specification). This format is required for the data to be compatible with the ESA SNAP Toolbox and the PyroSAR Python bindings.
 
-*2. geocode.py:*
+*2. download_archive.py:*
+
+This tool will download a Sentinel-1 image from Copernicus SciHub in the SAFE format specification (https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/data-formats/safe-specification). This format is required for the data to be compatible with the ESA SNAP Toolbox and the PyroSAR Python bindings.
+
+
+*3. geocode.py:*
 
 This tool simply wraps the excellent and highly useful SNAP geocode function provided by the PyroSAR Python package (https://github.com/johntruckenbrodt/pyroSAR) into a CLI. Most of the standard inputs to the geocode function are exposed via the CLI, with the exception that most inputs requiring lists have been simplified to single text inputs, and the `gpt_exceptions` option has been removed entirely. A few inputs have also been added for convenience, including a `bbox` argument (for image subsetting) and a `utm` option for the `t_srs` input, which will automatically select a UTM zone into which the image will be project (based on the centroid of the S-1 scene). The source code for the geocode function can be found here: https://github.com/johntruckenbrodt/pyroSAR/blob/master/pyroSAR/snap/util.py#L14.
 

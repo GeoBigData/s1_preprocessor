@@ -9,4 +9,5 @@ awscli>=1.16.100,<2.0
 tinytools<=1.1.0
 utm==0.4.2
 sh>=1.12,<2.0
-pyroSAR==0.8
+pyrosar==0.9
+sentinelsat==0.13

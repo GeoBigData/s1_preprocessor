@@ -1,0 +1,45 @@
+{
+    "inputPortDescriptors": [
+        {
+            "required": true,
+            "type": "string",
+            "description": "ID of the input image or scene to process. e.g., S1A_IW_GRDH_1SDV_20190313T161522_20190313T161557_026321_02F156_A8A9",
+            "name": "image_id"
+        }, 
+        {
+            "required": false,
+            "type": "string",
+            "description": "Username for downloading from Copernicus SciHub.",
+            "name": "username"
+        },
+        {
+            "required": false,
+            "type": "string",
+            "description": "Password for downloading from Copernicus SciHub.",
+            "name": "password"
+        }
+    ],
+    "outputPortDescriptors": [
+        {
+            "required": true,
+            "type": "directory",
+            "description": "Directory holding output Sentinel-1 scene in SAFE format.",
+            "name": "data"
+        }
+    ],
+    "containerDescriptors": [{
+        "type": "DOCKER",
+        "command": "python /s1_preprocessor/s1_preprocessor/task_runners/run_download_archive.py",
+        "properties": {
+            "image": "mgleason/s1_preprocessor:latest"
+        }
+    }],
+    "name": "s1_download_archive",
+    "taskOwnerEmail": "michael.gleason@digitalglobe.com",
+    "version": "0.0.1",
+    "description": "WARNING: THIS TASK IS EXPERIMENTAL AND HAS NOT BEEN ROBUSTLY TESTED. This task will download a Sentinel-1 image from the Copernicus SciHub. in SAFE format This format is required for the data to be compatible with the ESA SNAP Toolbox and the PyroSAR Python bindings, as used in the s1_geocode GBDX Task.",
+    "properties": {
+        "isPublic": true,
+        "timeout": 36000
+    }
+}

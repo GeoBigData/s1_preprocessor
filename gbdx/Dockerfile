@@ -13,6 +13,7 @@ RUN yes "" | bash /helper/esa-snap_sentinel_unix_6_0.sh
 RUN sed -i -e 's/-Xmx1G/-Xmx16G/g' /opt/snap/bin/gpt.vmoptions
 
 # install zip CLI
+RUN apt-get update -y
 RUN apt-get install zip -y
 
 # move the scripts over
